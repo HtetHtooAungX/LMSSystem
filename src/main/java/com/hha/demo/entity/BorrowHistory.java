@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,17 +19,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BorrowHistory {
 	
-	@EmbeddedId
-	private BorrowHistoryPk bhPk;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-	@ManyToOne
-	@MapsId("bookId")
-	@JoinColumn(name = "book_id", insertable = false, updatable = false)
+	@ManyToOne(optional = false)
 	private Book book;
 	
-	@ManyToOne
-	@MapsId("userId")
-	@JoinColumn(name = "user_id", insertable = false, updatable = false)
+	@ManyToOne(optional = false)
 	private User user;
 	
 	private LocalDate returnAt;
