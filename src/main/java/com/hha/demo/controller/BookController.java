@@ -1,6 +1,9 @@
 package com.hha.demo.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hha.demo.dto.input.BookDto;
 import com.hha.demo.dto.output.UpdateBookDto;
@@ -26,16 +30,19 @@ public class BookController {
 	private BorrowHistoryService bhService;
 	
 	@GetMapping
-	public String viewAll(Model model) {
-		model.addAttribute("books", service.findByNameOrAuthor(new BookDto()));
+	public String viewAll(Model model, Principal principal) {
+		model.addAttribute("user", principal.getName());
+		if (!model.containsAttribute("books")) {
+			model.addAttribute("books", service.findByNameOrAuthor(new BookDto()));
+		}
 		model.addAttribute("findBookDto", new BookDto());
 		return "bookResult";
 	}
 	
 	@PostMapping("/search")
-	public String findBooks(Model model, @ModelAttribute("findBookDto") BookDto BookDto) {
-		model.addAttribute("books", service.findByNameOrAuthor(BookDto));
-		return "bookResult";
+	public String findBooks(@ModelAttribute("findBookDto") BookDto BookDto, RedirectAttributes redirectAttributes) {
+		redirectAttributes.addFlashAttribute("books", service.findByNameOrAuthor(BookDto));
+		return "redirect:/book";
 	}
 	
 	@GetMapping("/delete/{id}")

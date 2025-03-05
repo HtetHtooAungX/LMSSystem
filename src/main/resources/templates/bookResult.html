@@ -2,6 +2,7 @@
 <html th:replace="~{layout/masterLayout::layout(~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <body>
 <main role="main">
+<h3>Welcome <span th:text="${user}"></span> ! <a th:href="@{/logout}">Logout</a></h3>
 <form action="#" th:action="@{/book/search}" th:object="${findBookDto}" method="post">
 	<div>
 		<label>Book Name :</label>
@@ -31,7 +32,7 @@
 		<td><a th:href="@{/book/delete/{id}(id=${book.id})}" >delete</a></td>
 	</tr>
 </table>
-<a th:href="@{/book/create}" class="button">Create</a>
+<a th:href="@{/book/create}" class="button">Add Book</a>
 </main>
 </body>
 </html>

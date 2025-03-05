@@ -32,6 +32,7 @@ public class BorrowHistoryService {
 		Book book = bRepo.findById(dto.getBookId()).orElseThrow(() -> new LMSException("Invalid Book Id."));
 		
 		BorrowHistory bh = new BorrowHistory();
+		bh.setBorrowAt(LocalDate.now());
 		user.addBorrow(bh);
 		book.addBorrow(bh);
 		return bh;

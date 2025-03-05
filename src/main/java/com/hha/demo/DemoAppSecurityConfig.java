@@ -38,9 +38,11 @@ public class DemoAppSecurityConfig {
 		return http
 				.csrf(c -> c.disable())
 				.cors(c -> c.disable())
-				.formLogin(form -> form.loginPage("/login").permitAll())
+				.formLogin(form -> form.loginPage("/auth/login"))
+				.logout(form -> form.logoutSuccessUrl("/auth/after-logout"))
 				.authenticationProvider(authenticationProvider())
-				.authorizeHttpRequests(request -> request.mvcMatchers("/book/**").permitAll()
+				.authorizeHttpRequests(request -> request
+													.mvcMatchers("/auth/**","/logout").permitAll()
 //													.mvcMatchers("/user/**").hasAuthority("USER")
 													.anyRequest().authenticated()
 						)

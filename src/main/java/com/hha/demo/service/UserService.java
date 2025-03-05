@@ -1,15 +1,18 @@
 package com.hha.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hha.demo.dto.input.UserInputDto;
 import com.hha.demo.dto.output.UserOutputDto;
 import com.hha.demo.entity.User;
+import com.hha.demo.entity.User.Role;
 import com.hha.demo.exception.LMSException;
 import com.hha.demo.repo.UserRepo;
 
@@ -18,6 +21,15 @@ public class UserService {
 
 	@Autowired
 	private UserRepo repo;
+	
+	@Autowired
+	private PasswordEncoder encoder;
+	
+	public User register(User user) {
+		user.setPassword(encoder.encode(user.getPassword()));
+		user.setRole(Role.USER);
+		return repo.save(user);
+	}
 	
 	public UserOutputDto addUser(UserInputDto ui) {
 		return UserOutputDto.from(repo.save(UserInputDto.to(ui)));

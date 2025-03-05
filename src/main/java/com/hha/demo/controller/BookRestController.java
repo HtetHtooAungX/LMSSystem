@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hha.demo.dto.input.BookDto;
+import com.hha.demo.dto.output.BookSearchDto;
 import com.hha.demo.dto.output.UpdateBookDto;
 import com.hha.demo.service.BookService;
 
@@ -24,8 +25,8 @@ public class BookRestController {
 	private BookService service;
 	
 	@GetMapping("/find")
-	public ResponseEntity<List<UpdateBookDto>> findByNameOrAuthor(@RequestBody BookDto dto) {
+	public ResponseEntity<List<BookSearchDto>> findByNameOrAuthor(@RequestBody BookDto dto) {
 		System.out.println(dto);
-		return new ResponseEntity<List<UpdateBookDto>>(service.findByNameOrAuthor(dto), HttpStatus.FOUND);
+		return new ResponseEntity<List<BookSearchDto>>(service.findByNameOrAuthor(dto), HttpStatus.FOUND);
 	}
 }

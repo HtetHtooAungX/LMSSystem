@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.hha.demo.dto.input.BookDto;
+import com.hha.demo.dto.output.BookSearchDto;
 import com.hha.demo.dto.output.UpdateBookDto;
 import com.hha.demo.entity.Book;
 import com.hha.demo.exception.LMSException;
@@ -48,19 +49,18 @@ public class BookService {
 		return repo.save(BookDto.from(dto));
 	}
 	
-	public List<UpdateBookDto> findByNameOrAuthor(BookDto dto) {
+	public List<BookSearchDto> findByNameOrAuthor(BookDto dto) {
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-		
 		Specification<Book> spec = namedOrEmail(dto);
 		
 		if (null != spec) {
 			return repo.findAll(spec).stream()
-					.map(UpdateBookDto::from)
+					.map(BookSearchDto::from)
 					.collect(Collectors.toList());
 		}
 		
 		return repo.findAll().stream()
-				.map(UpdateBookDto::from)
+				.map(BookSearchDto::from)
 				.collect(Collectors.toList());
 	}
 	
