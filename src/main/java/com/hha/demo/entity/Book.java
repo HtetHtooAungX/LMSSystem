@@ -23,7 +23,12 @@ public class Book {
 	private String name;
 	private String author;
 	
-	@OneToMany(mappedBy = "book")
+	public Book(String name, String author) {
+		this.name = name;
+		this.author = author;
+	}
+	
+	@OneToMany(mappedBy = "book", orphanRemoval = true)
 	private List<BorrowHistory> borrowHistory = new ArrayList<BorrowHistory>();
 	
 	public void addBorrow(BorrowHistory bh) {

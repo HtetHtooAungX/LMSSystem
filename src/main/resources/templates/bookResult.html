@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/masterLayout::layout(~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+<form action="#" th:action="@{/book/search}" th:object="${findBookDto}" method="post">
+	<div>
+		<label>Book Name :</label>
+		<input type="text" th:field="*{name}" />
+	</div>
+	<div>
+		<label>Author Name :</label>
+		<input type="text" th:field="*{author}" />
+	</div>
+	<div>
+		<input type="submit" value="Submit">
+	</div>
+</form>
+<table class="table">
+	<tr>
+		<th>Id</th>
+		<th>Name</th>
+		<th>Author</th>
+		<th>Action<th>
+		<th></th>
+	</tr>
+	<tr th:each="book:${books}">
+		<td th:text="${book.id}"></td>
+		<td th:text="${book.name}"></td>
+		<td th:text="${book.author}"></td>
+		<td><a th:href="@{/book/view/{id}(id=${book.id})}" >update</a></td>
+		<td><a th:href="@{/book/delete/{id}(id=${book.id})}" >delete</a></td>
+	</tr>
+</table>
+<a th:href="@{/book/create}" class="button">Create</a>
+</main>
+</body>
+</html>

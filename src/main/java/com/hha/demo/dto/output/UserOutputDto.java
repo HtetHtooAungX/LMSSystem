@@ -9,13 +9,17 @@ public class UserOutputDto {
 
 	private int id;
 	private String name;
-	private String address;
+	private String username;
+	private String email;
+	private String role;
 	
 	public static UserOutputDto from(User u) {
 		UserOutputDto uo = new UserOutputDto();
 		uo.setId(u.getId());
 		uo.setName(u.getName());
-		uo.setAddress(u.getAddress());
+		uo.setEmail(u.getEmail());
+		uo.setUsername(u.getUsername());
+		uo.setRole(u.getRole().name());
 		return uo;
 	}
 }

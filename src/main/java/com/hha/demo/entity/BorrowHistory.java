@@ -2,14 +2,11 @@ package com.hha.demo.entity;
 
 import java.time.LocalDate;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,11 +20,17 @@ public class BorrowHistory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	private Book book;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne
 	private User user;
 	
+	private LocalDate borrowAt;
 	private LocalDate returnAt;
+	
+	public BorrowHistory(LocalDate borrowAt, LocalDate returnAt) {
+		this.borrowAt = borrowAt;
+		this.returnAt = returnAt;
+	}
 }

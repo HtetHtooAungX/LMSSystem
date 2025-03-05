@@ -19,8 +19,32 @@ public class UserService {
 	@Autowired
 	private UserRepo repo;
 	
-	public String addUser(UserInputDto ui) {
-		return repo.save(UserInputDto.to(ui)).toString();
+	public UserOutputDto addUser(UserInputDto ui) {
+		return UserOutputDto.from(repo.save(UserInputDto.to(ui)));
+	}
+	
+	public UserOutputDto updateUserInfo(int id, UserInputDto ui) {
+		User user = repo.findById(id).orElseThrow(() -> new LMSException("Invalid user id."));
+		
+		user.setId(id);
+		
+		if (null != ui.getName()) {
+			user.setName(ui.getName());
+		}
+		
+		if (null != ui.getEmail()) {
+			user.setEmail(ui.getEmail());
+		}
+		
+		if (null != ui.getUsername()) {
+			user.setUsername(ui.getUsername());
+		}
+		
+		if (null != ui.getPassword()) {
+			user.setPassword(ui.getPassword());
+		}
+		
+		return UserOutputDto.from(repo.save(user)); 
 	}
 	
 	public List<UserOutputDto> findByName(String name) {

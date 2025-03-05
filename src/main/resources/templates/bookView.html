@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/masterLayout::layout(~{::main})}"
+	xmlns:th="http://www.thymeleaf.org">
+<body>
+	<main role="main">
+		<form action="#" th:object="${book}" th:action="@{/book/update}"
+			method="post">
+			<div>
+				<input type="text" th:field="*{id}" hidden>
+			</div>
+			<div>
+				<label>Name : </label> <input type="text" th:field="*{name}">
+			</div>
+			<div>
+				<label>Author : </label> <input type="text" th:field="*{author}">
+			</div>
+			<div>
+				<input type="submit" value="Update"> <a th:href="@{/book}">go
+					back</a>
+			</div>
+		</form>
+		<table>
+			<tr>
+				<th>Id</th>
+				<th>User</th>
+				<th>BorrowAt</th>
+				<th>ReturnAt</th>
+			</tr>
+			<tr th:each="history:${book.borrowHistory}">
+				<td th:text="${history.id}"></td>
+				<td th:text="${history.user}"></td>
+				<td th:text="${history.borrowAt}"></td>
+				<td th:if="${history.returnAt}" th:text="${history.returnAt}"></td>
+				<td th:unless="${history.returnAt}"><a th:href="@{/book/return/{id}(id=${history.id})}">Return</a></td>
+			</tr>
+		</table>
+	</main>
+</body>
+</html>

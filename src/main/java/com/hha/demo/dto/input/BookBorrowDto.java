@@ -7,7 +7,8 @@ import lombok.Data;
 @Data
 public class BookBorrowDto {
 
-	private String bookId;
-	private String userId;
+	private Integer bookId;
+	private String username;
 	private LocalDate borrowAt;
+	private LocalDate returnAt;
 }
