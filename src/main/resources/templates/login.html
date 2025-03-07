@@ -3,17 +3,29 @@
 	xmlns:th="http://www.thymeleaf.org">
 <body>
 	<main role="main">
+		<script type="text/javascript">
+
+			const encrypt = (e) => {
+				e.preventDefault();
+				var formdata = new FormData(e.target)
+				formdata.set("password", formdata.get("password").split("").map(c => String.fromCharCode(c.charCodeAt(0) + 2)).toString().replaceAll(",", ""));
+				console.log(formdata.get("password"));
+				document.getElementById("password").value = formdata.get("password");
+				e.target.submit();
+			}
+		</script>
 		<h1>Login</h1>
-		<form th:action="@{/auth/login}" method="post">
+		<form id="form" th:action="@{/auth/check-login}" method="post" onsubmit="encrypt(event)">
 			<div>
-				<label>Username Or Email: </label>
-				<input type="text" name="username">
+				<label>Username Or Email: </label> <input id="username" type="text"
+					name="username">
 			</div>
 			<div>
-				<label>Password: </label>
-				<input type="text" name="password">
+				<label>Password: </label> <input id="password" type="text"
+					name="password">
 			</div>
-			<input type="submit" value="login">
+			<input type="submit" value="login"> <a class="btn btn-info"
+				th:href="@{/auth/signup}">Sign Up</a>
 		</form>
 	</main>
 </body>

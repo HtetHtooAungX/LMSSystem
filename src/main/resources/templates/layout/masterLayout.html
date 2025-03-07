@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html th:fragment="layout(main)" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="layout(main)" lang="en"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<link th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
 </head>
 <body>
-<div th:replace="${main}"></div>
+	<div th:replace="${main}"></div>
 </body>
 </html>

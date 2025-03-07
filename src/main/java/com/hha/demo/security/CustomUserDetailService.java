@@ -23,7 +23,7 @@ public class CustomUserDetailService implements UserDetailsService{
 				.map(user -> User.builder()
 						.username(user.getUsername())
 						.password(user.getPassword())
-						.authorities(user.getRole().name())
+						.authorities(user.getRole().toString())
 						.build()
 					).orElseThrow(() -> new LMSException("Username or Email not found!"));
 	}

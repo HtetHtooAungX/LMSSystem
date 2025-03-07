@@ -1,6 +1,7 @@
 package com.hha.demo.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,10 +27,10 @@ public class BorrowHistory {
 	@ManyToOne
 	private User user;
 	
-	private LocalDate borrowAt;
-	private LocalDate returnAt;
+	private LocalDateTime borrowAt;
+	private LocalDateTime returnAt;
 	
-	public BorrowHistory(LocalDate borrowAt, LocalDate returnAt) {
+	public BorrowHistory(LocalDateTime borrowAt, LocalDateTime returnAt) {
 		this.borrowAt = borrowAt;
 		this.returnAt = returnAt;
 	}

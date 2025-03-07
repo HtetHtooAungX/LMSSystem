@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.annotation.Secured;
@@ -16,6 +19,7 @@ import com.hha.demo.dto.input.BookDto;
 import com.hha.demo.dto.output.BookSearchDto;
 import com.hha.demo.dto.output.UpdateBookDto;
 import com.hha.demo.entity.Book;
+import com.hha.demo.entity.User.Role;
 import com.hha.demo.exception.LMSException;
 import com.hha.demo.repo.BookRepo;
 import com.hha.demo.repo.specification.BookSpecification;
@@ -26,12 +30,12 @@ public class BookService {
 	@Autowired
 	private BookRepo repo;
 	
-	@Secured("LIBRANIAN")
+	@Secured("ROLE_LIBRANIAN")
 	public void deleteBook(int id) {
 		repo.deleteById(id);
 	}
 	
-	@Secured("LIBRANIAN")
+	@Secured("ROLE_LIBRANIAN")
 	public void update(int id, UpdateBookDto ubook) {
 		Book book = repo.findById(id).orElseThrow(() -> new LMSException("invalid Id"));
 		book.setId(id);
@@ -44,13 +48,12 @@ public class BookService {
 		return repo.findById(bookId);
 	}
 	
-	@Secured("LIBRANIAN")
+	@Secured("ROLE_LIBRANIAN")
 	public Book save(BookDto dto) {
 		return repo.save(BookDto.from(dto));
 	}
 	
 	public List<BookSearchDto> findByNameOrAuthor(BookDto dto) {
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
 		Specification<Book> spec = namedOrEmail(dto);
 		
 		if (null != spec) {
@@ -75,9 +78,22 @@ public class BookService {
 			if (null == spec) {
 				spec = BookSpecification.hasAuthor(dto.getAuthor());
 			} else {
-				spec.and(spec = BookSpecification.hasAuthor(dto.getAuthor()));
+				spec.or(spec = BookSpecification.hasAuthor(dto.getAuthor()));
 			}
 		}
+		
+		if (isUser()) {
+			if (null == spec) {
+				spec = BookSpecification.checkRole(Role.ROLE_USER);
+			} else {
+				spec.and(BookSpecification.checkRole(Role.ROLE_USER));
+			}
+			
+		}
 		return spec;
+	}
+
+	private boolean isUser() {
+		return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 	}
 }

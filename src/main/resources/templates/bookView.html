@@ -19,7 +19,7 @@
 					back</a>
 			</div>
 		</form>
-		<table>
+		<table class="table">
 			<tr>
 				<th>Id</th>
 				<th>User</th>
@@ -31,9 +31,27 @@
 				<td th:text="${history.user}"></td>
 				<td th:text="${history.borrowAt}"></td>
 				<td th:if="${history.returnAt}" th:text="${history.returnAt}"></td>
-				<td th:unless="${history.returnAt}"><a th:href="@{/book/return/{id}(id=${history.id})}">Return</a></td>
+				<td th:unless="${history.returnAt}">
+				<a sec:authorize="hasRole('LIBRANIAN')"
+					th:href="@{/book/return/{id}/{borrowId}(id=${book.id}, borrowId=${history.id})}">Return</a>
+					<div sec:authorize="hasRole('USER') or hasRole('PREMIUM')">Not Returned Yet</div>
+				</td>
 			</tr>
 		</table>
+		<div sec:authorize="hasRole('LIBRANIAN')" th:if="${borrowDto}">
+			<form action="#" th:object="${borrowDto}" th:action="@{/book/borrow}"
+				method="post">
+				<div>
+					<input type="text" th:field="*{bookId}" hidden>
+				</div>
+				<div>
+					<label>Username :</label> <input type="text" th:field="*{username}">
+				</div>
+				<div>
+					<input type="submit" value="Borrow">
+				</div>
+			</form>
+		</div>
 	</main>
 </body>
 </html>

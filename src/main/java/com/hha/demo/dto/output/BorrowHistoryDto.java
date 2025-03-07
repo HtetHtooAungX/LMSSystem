@@ -1,6 +1,7 @@
 package com.hha.demo.dto.output;
 
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import com.hha.demo.entity.BorrowHistory;
 
@@ -15,16 +16,18 @@ public class BorrowHistoryDto {
 	
 	private String user;
 	
-	private LocalDate borrowAt;
-	private LocalDate returnAt;
+	private String borrowAt;
+	private String returnAt;
 	
 	public static BorrowHistoryDto from(BorrowHistory bh) {
 		BorrowHistoryDto dto = new BorrowHistoryDto();
 		dto.setId(bh.getId());
 		dto.setUser(bh.getUser().getName());
 		dto.setBook(bh.getBook().getName());
-		dto.setBorrowAt(bh.getBorrowAt());
-		dto.setReturnAt(bh.getReturnAt());
+		dto.setBorrowAt(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+				  .format(bh.getBorrowAt()));
+		dto.setReturnAt(null != bh.getReturnAt() ? DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+				  .format(bh.getReturnAt()) : null);
 		
 		return dto;
 	}

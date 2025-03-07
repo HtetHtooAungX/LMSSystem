@@ -1,10 +1,13 @@
 package com.hha.demo.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -40,15 +43,15 @@ public class User {
 	private String password;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private Role role;
+	@ElementCollection
+	private List<Role> role = new ArrayList<Role>();
 	
 	public User(String name, String username, String email, String password, Role role) {
 		this.name = name;
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.role = role;
+		this.role.add(role);
 	}
 	
 	@OneToMany(mappedBy = "user", orphanRemoval = true)
@@ -60,7 +63,7 @@ public class User {
 	}
 
 	public enum Role {
-		USER ,LIBRANIAN
+		ROLE_USER, ROLE_PREMIUM, ROLE_LIBRANIAN
 	}
 	
 	

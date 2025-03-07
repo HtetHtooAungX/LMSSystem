@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/masterLayout::layout(~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layout/masterLayout::layout(~{::main})}"
+	xmlns:th="http://www.thymeleaf.org">
 <body>
-<main role="main">
-<form action="#" th:object="${book}" th:action="@{/book/create/save}" method="post">
-	<div>
-		<label>Name : </label>
-		<input type="text" th:field="*{name}" th:value="${name}">
-	</div>
-		<div>
-		<label>Author : </label>
-		<input type="text" th:field="*{author}" th:value="${author}">
-	</div>
-	<div>
-		<input type="submit" value="Save">
-	</div>
-</form>
-</main>
+	<main role="main">
+		<form action="#" th:object="${book}" th:action="@{/book/create/save}"
+			method="post">
+			<div>
+				<label>Name : </label> <input type="text" th:field="*{name}"
+					th:value="${name}">
+			</div>
+			<div>
+				<label>Author : </label> <input type="text" th:field="*{author}"
+					th:value="${author}">
+			</div>
+			<div>
+				<label>Visiablity : </label>
+				<select th:field="*{visiable}">
+					<option th:value="ROLE_USER" th:text="User">
+					<option th:value="ROLE_PREMIUM" th:text="Premium">
+				</select>
+			</div>
+			<div>
+				<input type="submit" value="Save">
+			</div>
+		</form>
+	</main>
 </body>
 </html>

@@ -25,10 +25,19 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder encoder;
 	
+	public User findByUserNameOrEmail(String keyword) {
+		return repo.findByUsernameOrEmail(keyword).orElseGet(null);
+	}
+	
 	public User register(User user) {
-		user.setPassword(encoder.encode(user.getPassword()));
-		user.setRole(Role.USER);
-		return repo.save(user);
+		User sameUsername = repo.findByUsernameOrEmail(user.getUsername()).orElseGet(null);
+		User sameEmail = repo.findByUsernameOrEmail(user.getEmail()).orElseGet(null);
+		if (null == sameUsername && null == sameEmail) {
+			user.setPassword(encoder.encode(user.getPassword()));
+			user.getRole().add(Role.ROLE_USER);
+			return repo.save(user);
+		}
+		return null;
 	}
 	
 	public UserOutputDto addUser(UserInputDto ui) {

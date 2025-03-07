@@ -1,38 +1,51 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/masterLayout::layout(~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layout/masterLayout::layout(~{::main})}"
+	xmlns:th="http://www.thymeleaf.org">
 <body>
-<main role="main">
-<h3>Welcome <span th:text="${user}"></span> ! <a th:href="@{/logout}">Logout</a></h3>
-<form action="#" th:action="@{/book/search}" th:object="${findBookDto}" method="post">
-	<div>
-		<label>Book Name :</label>
-		<input type="text" th:field="*{name}" />
-	</div>
-	<div>
-		<label>Author Name :</label>
-		<input type="text" th:field="*{author}" />
-	</div>
-	<div>
-		<input type="submit" value="Submit">
-	</div>
-</form>
-<table class="table">
-	<tr>
-		<th>Id</th>
-		<th>Name</th>
-		<th>Author</th>
-		<th>Action<th>
-		<th></th>
-	</tr>
-	<tr th:each="book:${books}">
-		<td th:text="${book.id}"></td>
-		<td th:text="${book.name}"></td>
-		<td th:text="${book.author}"></td>
-		<td><a th:href="@{/book/view/{id}(id=${book.id})}" >update</a></td>
-		<td><a th:href="@{/book/delete/{id}(id=${book.id})}" >delete</a></td>
-	</tr>
-</table>
-<a th:href="@{/book/create}" class="button">Add Book</a>
-</main>
+	<main role="main">
+		<div class="d-flex justify-content-between align-item-center">
+			<div>
+				<h3>
+					Welcome <span sec:authentication="name"></span> !
+				</h3>
+			</div>
+			<div>
+				<a class="btn btn-danger" th:href="@{/logout}">Logout</a>
+			</div>
+		</div>
+		<form class="mb-3" action="#" th:action="@{/book/search}"
+			th:object="${findBookDto}" method="post">
+			<div class="mb-3">
+				<label class="form-label">Book Name :</label> <input
+					class="form-control" type="text" th:field="*{name}" />
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Author Name :</label> <input
+					class="form-control" type="text" th:field="*{author}" />
+			</div>
+			<div>
+				<input class="w-100" type="submit" value="Search">
+			</div>
+		</form>
+		<table class="table">
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Author</th>
+				<th>Action</th>
+				<th></th>
+			</tr>
+			<tr th:each="book:${books}">
+				<td th:text="${book.id}"></td>
+				<td th:text="${book.name}"></td>
+				<td th:text="${book.author}"></td>
+				<td><a th:href="@{/book/view/{id}(id=${book.id})}">view</a></td>
+				<td><a sec:authorize="hasRole('LIBRANIAN')"
+					th:href="@{/book/delete/{id}(id=${book.id})}">delete</a></td>
+			</tr>
+		</table>
+		<a sec:authorize="hasRole('LIBRANIAN')" th:href="@{/book/create}"
+			class="button">Add Book</a>
+	</main>
 </body>
 </html>

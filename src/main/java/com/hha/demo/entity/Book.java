@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.hha.demo.entity.User.Role;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,10 +24,12 @@ public class Book {
 	private int id;
 	private String name;
 	private String author;
+	private Role visiable;
 	
-	public Book(String name, String author) {
+	public Book(String name, String author, Role visiable) {
 		this.name = name;
 		this.author = author;
+		this.visiable = visiable;
 	}
 	
 	@OneToMany(mappedBy = "book", orphanRemoval = true)
@@ -35,4 +39,5 @@ public class Book {
 		this.borrowHistory.add(bh);
 		bh.setBook(this);
 	}
+
 }

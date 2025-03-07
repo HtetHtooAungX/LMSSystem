@@ -10,9 +10,4 @@ public class IndexController {
 	public String index() {
 		return "redirect:/book";
 	}
-	
-	@GetMapping("/error")
-	public String error() {
-		return "error";
-	}
 }
