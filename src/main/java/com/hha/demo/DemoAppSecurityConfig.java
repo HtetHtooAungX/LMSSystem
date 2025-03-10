@@ -36,6 +36,10 @@ public class DemoAppSecurityConfig {
 	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		java.security.Security.addProvider(
+		         new org.bouncycastle.jce.provider.BouncyCastleProvider()
+		);
+		
 		return http
 				.csrf(c -> c.disable())
 				.cors(c -> c.disable())
@@ -43,7 +47,7 @@ public class DemoAppSecurityConfig {
 				.logout(form -> form.logoutSuccessUrl("/auth/after-logout"))
 				.authenticationProvider(authenticationProvider())
 				.authorizeHttpRequests(request -> request
-													.mvcMatchers("/auth/**","/logout").permitAll()
+													.mvcMatchers("/auth/**","/logout", "/api/**").permitAll()
 //													.mvcMatchers("/user/**").hasAuthority("USER")
 													.anyRequest().authenticated()
 						)

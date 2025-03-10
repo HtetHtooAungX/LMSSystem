@@ -1,10 +1,11 @@
 package com.hha.demo;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,7 @@ import com.hha.demo.entity.BorrowHistory;
 import com.hha.demo.repo.BookRepo;
 import com.hha.demo.repo.BorrowHistoryRepo;
 import com.hha.demo.repo.UserRepo;
+import com.hha.demo.security.event.ApplicationEventListener;
 
 import lombok.RequiredArgsConstructor;
 

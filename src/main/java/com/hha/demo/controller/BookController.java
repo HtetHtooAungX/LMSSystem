@@ -1,9 +1,6 @@
 package com.hha.demo.controller;
 
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hha.demo.dto.input.BookBorrowDto;
 import com.hha.demo.dto.input.BookDto;
 import com.hha.demo.dto.output.UpdateBookDto;
-import com.hha.demo.entity.Book;
 import com.hha.demo.service.BookService;
 import com.hha.demo.service.BorrowHistoryService;
 
@@ -29,6 +25,11 @@ public class BookController {
 	
 	@Autowired
 	private BorrowHistoryService bhService;
+	
+	@GetMapping("/find")
+	public String find() {
+		return "dataTable";
+	}
 	
 	@GetMapping
 	public String viewAll(Model model) {

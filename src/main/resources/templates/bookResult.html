@@ -27,22 +27,27 @@
 				<input class="w-100" type="submit" value="Search">
 			</div>
 		</form>
-		<table class="table">
-			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Author</th>
-				<th>Action</th>
-				<th></th>
-			</tr>
-			<tr th:each="book:${books}">
-				<td th:text="${book.id}"></td>
-				<td th:text="${book.name}"></td>
-				<td th:text="${book.author}"></td>
-				<td><a th:href="@{/book/view/{id}(id=${book.id})}">view</a></td>
-				<td><a sec:authorize="hasRole('LIBRANIAN')"
-					th:href="@{/book/delete/{id}(id=${book.id})}">delete</a></td>
-			</tr>
+
+		<table id="bookTable" class="display">
+
+			<!-- Header Table -->
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Author</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<!-- Footer Table -->
+			<tfoot>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Author</th>
+					<th>Action</th>
+				</tr>
+			</tfoot>
 		</table>
 		<a sec:authorize="hasRole('LIBRANIAN')" th:href="@{/book/create}"
 			class="button">Add Book</a>

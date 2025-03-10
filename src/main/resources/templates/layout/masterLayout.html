@@ -4,9 +4,26 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" th:href="@{bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+<script
+	src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script
+	src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
+<script
+	src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.dataTables.js"></script>
+<script src="/bootstrap/js/datatable.js"></script>
 </head>
 <body>
 	<div th:replace="${main}"></div>
 </body>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"
+	integrity="sha512-zDvrqenA0eFJZCxBsryzUZcvihvNlEXbteMv62yRxdhR4s7K1aaz+LjsRyfk6M+YJLyAJEuuquIAI8I8GgLC8A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>

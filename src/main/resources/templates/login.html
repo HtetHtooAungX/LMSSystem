@@ -7,15 +7,25 @@
 
 			const encrypt = (e) => {
 				e.preventDefault();
-				var formdata = new FormData(e.target)
-				formdata.set("password", formdata.get("password").split("").map(c => String.fromCharCode(c.charCodeAt(0) + 2)).toString().replaceAll(",", ""));
-				console.log(formdata.get("password"));
-				document.getElementById("password").value = formdata.get("password");
+				var formdata = new FormData(e.target);
+				
+				const encrypt = new JSEncrypt();
+				encrypt.setPublicKey(document.getElementById("pubkey").value);
+				const encrypted = encrypt.encrypt(formdata.get("password"));
+				console.log(encrypted);
+
+				const decrypt = new JSEncrypt();
+				decrypt.setPrivateKey(document.getElementById("privkey").value);
+				const decrypted = decrypt.decrypt(encrypted);
+				console.log(decrypted);
+	
+				document.getElementById("password").value = encrypted;
 				e.target.submit();
 			}
 		</script>
 		<h1>Login</h1>
-		<form id="form" th:action="@{/auth/check-login}" method="post" onsubmit="encrypt(event)">
+		<form id="form" th:action="@{/auth/check-login}" method="post"
+			onsubmit="encrypt(event)">
 			<div>
 				<label>Username Or Email: </label> <input id="username" type="text"
 					name="username">
@@ -27,6 +37,31 @@
 			<input type="submit" value="login"> <a class="btn btn-info"
 				th:href="@{/auth/signup}">Sign Up</a>
 		</form>
+		<textarea id="pubkey" rows="15" cols="65" hidden>
+		-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCCEb5E5SfVHqsm8YUxAKDSeLPg
+fK7BVvArAN56g90CG9ka01O8w/NlB1/abfBDts6FJ0r6Xpk0Sa1WC9mMrOYevmY3
+s5eMKfSc2chJrDI2aT0kdKuU0dv5oNU7zp6COg5TmaTZOaG2KFML+1ihguSWpPb4
+PU/b5jkCLyK02RGqzQIDAQAB
+-----END PUBLIC KEY-----</textarea>
+		<textarea id="privkey" rows="15" cols="65" hidden>
+-----BEGIN PRIVATE KEY-----
+MIICXQIBAAKBgQCCEb5E5SfVHqsm8YUxAKDSeLPgfK7BVvArAN56g90CG9ka01O8
+w/NlB1/abfBDts6FJ0r6Xpk0Sa1WC9mMrOYevmY3s5eMKfSc2chJrDI2aT0kdKuU
+0dv5oNU7zp6COg5TmaTZOaG2KFML+1ihguSWpPb4PU/b5jkCLyK02RGqzQIDAQAB
+AoGAebtRb/loRjXlyRTRqwMDgPgmoTsP8zMCo7y0e8Vd2tNlZY3TGR/rc+pq82th
+Kn602jnkGl7e0+kAqT995AMNevKEjwGtu6+yuzQWZYZjfQLJmBmJD+efky2UuyK5
+IbmTL3Jka479oJBZGv7U2T3d3pXZsxoHdc5HBZHykVdSrKECQQDADcDRAYKCh2h4
+yg5XbzSZZ0YnkXqI+blD+kNKblWyQTB04kzcuYYpVNwBSWjh/B9/ovlAFYVegrVX
+rED2ZfwTAkEArWCSX0+QDxNGDArpxeptIlBuMskxa8dCvsnFoeu0yH2IF1q/b2Zn
+KiAqESp3jp04ML8KOdpo3t90K7z1VHrZnwJBAJW/45HUyIu4w4gznN0mM/BNa5Fc
+yRvXBFNx51g5Eg8M75ij/+S3sFm39lf2gpZ6/aCLVihW34hjCL1U7c5ylQsCQDPM
+cm6/Wo7mdzsJ16Ylz808sm/B5F4K/kn6Bm3F+hEcUBiKKD+kHJZdXbQbN/UHy83k
+ha2bL1HG+PJIVhOTUIkCQQCOCA1CBIY7GnjDVPypW4+X0DtSwy/qGJJyszZfW8z2
+uG0KC37fIimPuXsrJbn86IrWnvXL8+A5wi9rXV8uNl8J
+-----END PRIVATE KEY-----
+</textarea>
+		<br />
 	</main>
 </body>
 </html>
