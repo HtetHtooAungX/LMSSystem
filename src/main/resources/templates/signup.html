@@ -2,24 +2,45 @@
 <html th:replace="~{layout/masterLayout::layout(~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <body>
 <main role="main">
-	<form action="#" th:action="@{/auth/register}" th:object="${user}" method="post">
+	<form class="mt-5" th:action="@{/auth/register}" th:object="${user}" method="post">
 		<div>
 			<label>Name: </label>
 			<input type="text" th:field="*{name}">
+			<ul>
+				<li th:each="err : ${nameErr}" th:text="${err}"></li>
+			</ul>
 		</div>
 		<div>
 			<label>Username: </label>
 			<input type="text" th:field="*{username}">
+			<ul>
+				<li th:each="err : ${usernameErr}" th:text="${err}"></li>
+			</ul>
 		</div>
 		<div>
 			<label>Email: </label>
 			<input type="text" th:field="*{email}">
+			<ul>
+				<li th:each="err : ${emailErr}" th:text="${err}"></li>
+			</ul>
 		</div>
 		<div>
 			<label>Password: </label>
 			<input type="text" th:field="*{password}">
+			<ul>
+				<li th:each="err : ${passwordErr}" th:text="${err}"></li>
+			</ul>
 		</div>
-		<input type="submit" value="Register">
+		<div sec:authorize="isAuthenticated()">
+			<label>Role : </label>
+			<select th:field="*{role}">
+				<option sec:authorize="hasAnyRole('LIBRANIAN', 'ADMIN', 'SUPER_ADMIN')" th:value="ROLE_USER" th:text="User">
+				<option sec:authorize="hasAnyRole('LIBRANIAN', 'ADMIN', 'SUPER_ADMIN')" th:value="ROLE_PREMIUM" th:text="Premium">
+				<option sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" th:value="ROLE_LIBRANIAN" th:text="Libranian">
+				<option sec:authorize="hasRole('SUPER_ADMIN')" th:value="ROLE_ADMIN" th:text="Admin">
+			</select>
+		</div>
+		<input class="w-100" type="submit" value="Register">
 	</form>
 </main>
 </body>

@@ -1,8 +1,14 @@
 package com.hha.demo.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hha.demo.dto.input.BookBorrowDto;
 import com.hha.demo.dto.input.BookDto;
 import com.hha.demo.dto.output.UpdateBookDto;
+import com.hha.demo.entity.Book;
 import com.hha.demo.service.BookService;
 import com.hha.demo.service.BorrowHistoryService;
 
@@ -74,12 +81,16 @@ public class BookController {
 	
 	@GetMapping("/create")
 	public String createBook(Model model) {
-		model.addAttribute("book", new BookDto());
+		model.addAttribute("book", new Book());
 		return "createBook";
 	}
 	
 	@PostMapping("/create/save")
-	public String saveBook(@ModelAttribute BookDto book) {
+	public String saveBook(@ModelAttribute @Valid Book book, BindingResult result, RedirectAttributes redirectAttributes) {
+		if (result.hasErrors()) {
+			generateCreateBookErrorMessage(result, redirectAttributes);
+			return "redirect:/book/create";
+		}
 		service.save(book);
 		return "redirect:/book";
 	}
@@ -94,5 +105,20 @@ public class BookController {
 	public String borrowBook(@ModelAttribute BookBorrowDto borrowDto) {
 		bhService.borrowBook(borrowDto);
 		return "redirect:/book/view/" + borrowDto.getBookId();
+	}
+	
+	private void generateCreateBookErrorMessage(BindingResult result, RedirectAttributes redirectAttributes) {
+		List<String> nameErr = new ArrayList<>();
+		List<String> authorErr = new ArrayList<>();
+		
+		if (result.hasFieldErrors("name")) {
+			result.getFieldErrors("name").stream().forEach(fe -> nameErr.add(fe.getDefaultMessage()));
+			redirectAttributes.addFlashAttribute("nameErr", nameErr);
+		}
+		
+		if (result.hasFieldErrors("author")) {
+			result.getFieldErrors("author").stream().forEach(fe -> authorErr.add(fe.getDefaultMessage()));
+			redirectAttributes.addFlashAttribute("authorErr", authorErr);
+		}
 	}
 }

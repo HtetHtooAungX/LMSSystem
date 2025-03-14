@@ -53,8 +53,8 @@ public class DemoApplication {
 			users.add(new User("Alice", "alice", "alice@example.com", passwordEncoder.encode("password"), Role.ROLE_LIBRANIAN));
 			users.add(new User("Bob", "bob", "bob@example.com", passwordEncoder.encode("password"), Role.ROLE_USER));
 			users.add(new User("Charlie", "charlie", "charlie@example.com", passwordEncoder.encode("password"), Role.ROLE_PREMIUM));
-			users.add(new User("Diana", "diana", "diana@example.com", passwordEncoder.encode("password"), Role.ROLE_USER));
-			users.add(new User("Eve", "eve", "eve@example.com", passwordEncoder.encode("password"), Role.ROLE_USER));
+			users.add(new User("Diana", "diana", "diana@example.com", passwordEncoder.encode("password"), Role.ROLE_ADMIN));
+			users.add(new User("Eve", "eve", "eve@example.com", passwordEncoder.encode("password"), Role.ROLE_SUPER_ADMIN));
 			users.add(new User("Frank", "frank", "frank@example.com", passwordEncoder.encode("password"), Role.ROLE_USER));
 			users.add(new User("Grace", "grace", "grace@example.com", passwordEncoder.encode("password"), Role.ROLE_USER));
 			users.add(new User("Heidi", "heidi", "heidi@example.com", passwordEncoder.encode("password"), Role.ROLE_USER));

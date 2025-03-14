@@ -8,10 +8,16 @@
 			<div>
 				<label>Name : </label> <input type="text" th:field="*{name}"
 					th:value="${name}">
+				<ul>
+					<li th:each="err : ${nameErr}" th:text="${err}"></li>
+				</ul>
 			</div>
 			<div>
 				<label>Author : </label> <input type="text" th:field="*{author}"
 					th:value="${author}">
+					<ul>
+						<li th:each="err : ${authorErr}" th:text="${err}"></li>
+					</ul>
 			</div>
 			<div>
 				<label>Visiablity : </label>

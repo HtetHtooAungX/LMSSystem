@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/masterLayout::layout(~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+<h1>Users Table</h1>
+	<table id="userTable" class="display">
+		<!-- Header Table -->
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>UserName</th>
+				<th>Email</th>
+				<th>Action</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<!-- Footer Table -->
+		<tfoot>
+			<tr>
+				<th>Id</th>
+				<th>UserName</th>
+				<th>Email</th>
+				<th>Action</th>
+				<th>Delete</th>
+			</tr>
+		</tfoot>
+	</table>
+	
+	<script type="text/javascript">
+	$(document).ready( function () {
+		 var table = $('#userTable').DataTable({
+				ajax: "/users/api",
+				serverSide: true,
+				processing: true,
+				columns: [
+	                {
+	                    data: 'id'
+	                },
+	                {
+	                    data: 'username'
+	                },
+	                {
+	                    data: 'email'
+	                },
+	                {
+	                	name: 'Action',
+	                    data: 'id',
+	                    orderable: false,
+	                    render: function (data) { 
+		                    return `<a class="btn btn-info btn-sm me-2" href="/users/view/${data}">Edit</a>`; 
+		                    }
+	                },
+	                {
+	                	name: 'Delete',
+	                    data: 'id',
+	                    orderable: false,
+	                    render: function (data) { 
+		                    return `<a id="deleteBtn" class="btn btn-danger btn-sm me-2" href="/users/delete/${data}">Delete</a>`;  
+		                    }
+	                }
+	            ]
+		 });
+	});
+	</script>
+</main>
+</body>
+</html>

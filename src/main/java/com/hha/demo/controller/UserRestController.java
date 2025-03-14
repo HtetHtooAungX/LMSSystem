@@ -42,7 +42,7 @@ public class UserRestController {
 	
 	@PutMapping("/update")
 	private ResponseEntity<UserOutputDto> updateUserInfo(@RequestParam int id,@RequestBody UserInputDto ui) {
-		return new ResponseEntity<UserOutputDto>(uService.updateUserInfo(id, ui), HttpStatus.ACCEPTED);
+		return new ResponseEntity<UserOutputDto>(uService.updateUserInfo(id, UserInputDto.to(ui)), HttpStatus.ACCEPTED);
 	}
 	
 	@DeleteMapping("/delete/{id}")

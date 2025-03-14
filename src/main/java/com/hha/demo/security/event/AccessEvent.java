@@ -22,8 +22,9 @@ public class AccessEvent {
 	@Override
 	public String toString() {
 		StringBuilder eventString = new StringBuilder();
-		eventString.append(userName).append(" tried to access with ");
-		eventString.append(password).append(" at ").append(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM).format(access_at));
+		eventString.append(userName).append(" tried to access with ")
+			.append(password).append(" at ")
+			.append(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM).format(access_at));
 		return eventString.toString();
 	}
 }

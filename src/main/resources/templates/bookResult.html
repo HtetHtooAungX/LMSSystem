@@ -3,16 +3,6 @@
 	xmlns:th="http://www.thymeleaf.org">
 <body>
 	<main role="main">
-		<div class="d-flex justify-content-between align-item-center">
-			<div>
-				<h3>
-					Welcome <span sec:authentication="name"></span> !
-				</h3>
-			</div>
-			<div>
-				<a class="btn btn-danger" th:href="@{/logout}">Logout</a>
-			</div>
-		</div>
 		<form class="mb-3" action="#" th:action="@{/book/search}"
 			th:object="${findBookDto}" method="post">
 			<div class="mb-3">
@@ -27,7 +17,7 @@
 				<input class="w-100" type="submit" value="Search">
 			</div>
 		</form>
-
+		<h1 class="text-center">Book Table</h1>
 		<table id="bookTable" class="display">
 
 			<!-- Header Table -->
@@ -37,6 +27,7 @@
 					<th>Name</th>
 					<th>Author</th>
 					<th>Action</th>
+					<th>Delete</th>
 				</tr>
 			</thead>
 			<!-- Footer Table -->
@@ -46,11 +37,10 @@
 					<th>Name</th>
 					<th>Author</th>
 					<th>Action</th>
+					<th>Delete</th>
 				</tr>
 			</tfoot>
 		</table>
-		<a sec:authorize="hasRole('LIBRANIAN')" th:href="@{/book/create}"
-			class="button">Add Book</a>
 	</main>
 </body>
 </html>

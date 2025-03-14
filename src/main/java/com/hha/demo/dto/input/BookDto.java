@@ -1,5 +1,9 @@
 package com.hha.demo.dto.input;
 
+import java.util.List;
+
+import org.springframework.util.StringUtils;
+
 import com.hha.demo.entity.Book;
 import com.hha.demo.entity.User.Role;
 
@@ -22,5 +26,15 @@ public class BookDto {
 		this.name = name;
 		this.author = author;
 		this.visiable = visiable;
+	}
+	
+	public String validate() {
+		StringBuilder err = new StringBuilder("{");
+		
+		if (StringUtils.hasText(this.name)) {
+			
+		}
+		err.append("Name");
+		return null;
 	}
 }

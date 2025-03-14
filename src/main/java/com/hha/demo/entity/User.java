@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,27 +33,30 @@ public class User {
 	private int id;
 	
 	@Column(nullable = false)
+	@NotEmpty(message = "Name cannot be empty!")
 	private String name;
 	
 	@Column(nullable = false, unique = true)
+	@NotEmpty(message = "Username cannot be empty!")
 	private String username;
 	
 	@Column(nullable = false, unique = true)
+	@NotEmpty(message = "Email cannot be empty!")
 	private String email;
 	
 	@Column(nullable = false)
+	@NotEmpty(message = "Password cannot be empty!")
 	private String password;
 	
 	@Column(nullable = false)
-	@ElementCollection
-	private List<Role> role = new ArrayList<Role>();
+	private Role role;
 	
 	public User(String name, String username, String email, String password, Role role) {
 		this.name = name;
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.role.add(role);
+		this.role = role;
 	}
 	
 	@OneToMany(mappedBy = "user", orphanRemoval = true)
@@ -63,8 +68,6 @@ public class User {
 	}
 
 	public enum Role {
-		ROLE_USER, ROLE_PREMIUM, ROLE_LIBRANIAN
+		ROLE_SUPER_ADMIN, ROLE_ADMIN, ROLE_LIBRANIAN, ROLE_USER, ROLE_PREMIUM
 	}
-	
-	
 }

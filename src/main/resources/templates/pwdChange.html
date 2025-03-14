@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/masterLayout::layout(~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-12">
+				<form th:action="@{change}" th:object="${pwdDto}" method="post">
+					<div>
+						<label class="form-label">Old Password</label>
+						<input class="form-control" type="text" th:field="*{oldPassword}">
+						<ul>
+							<li th:each="err : ${oldPasswordErr}" th:text="${err}"></li>
+						</ul>
+					</div>
+					
+					<div>
+						<label class="form-label">New Password</label>
+						<input class="form-control" type="text" th:field="*{newPassword}">
+						<ul>
+							<li th:each="err : ${newPasswordErr}" th:text="${err}"></li>
+						</ul>
+					</div>
+					
+					<div>
+						<label class="form-label">Enter New Password again?</label>
+						<input class="form-control" type="text" th:field="*{reNewPassword}">
+						<ul>
+							<li th:each="err : ${reNewPasswordErr}" th:text="${err}"></li>
+						</ul>
+					</div>
+					<input class="w-100 btn btn-secondary mt-3" type="submit" value="Change">
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+</body>
+</html>

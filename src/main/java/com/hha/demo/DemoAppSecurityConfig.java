@@ -48,7 +48,7 @@ public class DemoAppSecurityConfig {
 				.authenticationProvider(authenticationProvider())
 				.authorizeHttpRequests(request -> request
 													.mvcMatchers("/auth/**","/logout", "/api/**").permitAll()
-//													.mvcMatchers("/user/**").hasAuthority("USER")
+													.mvcMatchers("/users/bootstrap/**").permitAll()
 													.anyRequest().authenticated()
 						)
 				.build();

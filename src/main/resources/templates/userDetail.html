@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/masterLayout::layout(~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<main role="main">
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-12">
+				<form th:action="@{update}" th:object="${user}" method="post">
+					<input class="form-control" type="text" th:field="*{id}" hidden>
+					<input class="form-control" type="text" th:field="*{password}" hidden>
+					<div>
+						<label class="form-label">Name : </label>
+						<input class="form-control" type="text" th:field="*{name}">
+						<ul>
+							<li th:each="err : ${nameErr}" th:text="${err}"></li>
+						</ul>
+					</div>
+					<div>
+						<label class="form-label">Username : </label>
+						<input class="form-control" type="text" th:field="*{username}">
+						<ul>
+							<li th:each="err : ${usernameErr}" th:text="${err}"></li>
+						</ul>
+					</div>
+					<div>
+						<label class="form-label">Email : </label>
+						<input class="form-control" type="text" th:field="*{email}">
+						<ul>
+							<li th:each="err : ${emailErr}" th:text="${err}"></li>
+						</ul>
+					</div>
+					<div>
+						<label class="form-label">Role : </label>
+						<select class="form-control" th:field="*{role}">
+							<option th:value="ROLE_USER" th:text="User">
+							<option th:value="ROLE_PREMIUM" th:text="Premium">
+							<option th:value="ROLE_LIBRANIAN" th:text="Libranian">
+							<option th:value="ROLE_ADMIN" th:text="Admin">
+						</select>
+						<ul>
+							<li th:each="err : ${roleErr}" th:text="${err}"></li>
+						</ul>
+					</div>
+					<button id="popupBtn" class="w-100 btn btn-primary" type="submit" th:text="Update"></button>
+				</form>
+				<a class="w-100 btn btn-danger" th:href="@{/users/{id}/pwdchg(id=${user.id})}">ChangePassword</a>
+			</div>
+		</div>
+	</div>
+	<script>
+	$(document).ready( function () {
+		$("#popupBtn").click(e => {
+				alert("submited!");
+			})
+	})
+	</script>
+</main>
+</body>
+</html>
