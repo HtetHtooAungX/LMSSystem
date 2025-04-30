@@ -75,7 +75,7 @@ public class UserService {
 		return UserOutputDto.from(repo.save(user)); 
 	}
 	
-	@Secured({"ADMIN","SUPER_ADMIN"})
+	@Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
 	public void changePassword(int id, PasswordChgDto pwdDto) {
 		User user = repo.findById(id).get();
 		user.setPassword(encoder.encode(pwdDto.getNewPassword()));

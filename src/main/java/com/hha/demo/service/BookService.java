@@ -3,6 +3,7 @@ package com.hha.demo.service;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,10 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,6 +27,7 @@ import org.springframework.util.StringUtils;
 import com.hha.demo.dto.dataTables.input.DataTablesServerSideInput;
 import com.hha.demo.dto.input.BookDto;
 import com.hha.demo.dto.output.BookSearchDto;
+import com.hha.demo.dto.output.PageResult;
 import com.hha.demo.dto.output.UpdateBookDto;
 import com.hha.demo.entity.Book;
 import com.hha.demo.entity.User.Role;
@@ -123,5 +129,33 @@ public class BookService {
 			spec = spec.and(BookSpecification.checkRole(Role.ROLE_USER));
 		}
 		return spec;
+	}
+
+	public PageResult<BookSearchDto> findByPagination(int currentPage, int size, String colName, boolean desc) {
+		final Pageable pageable;
+		
+		if (StringUtils.hasText(colName)) {
+			switch (colName) {
+				case "name":
+				case "author":
+					pageable = getPageRequest(currentPage, size, colName, desc);
+					break;
+				default:
+					pageable = getPageRequest(currentPage, size, "id", desc);
+					break;
+			}
+		} else {
+			pageable = PageRequest.of(currentPage, size);
+		}
+		
+		Page<Book> books = repo.findAll(pageable);
+		
+		Function<Book, BookSearchDto> mapper = BookSearchDto::from;
+		PageResult<BookSearchDto> result = PageResult.fromPage(books, mapper);
+		return result;
+	}
+	
+	private Pageable getPageRequest(int currentPage, int size, String colName, boolean desc) {
+		return desc ? PageRequest.of(currentPage, size, Sort.by(colName).descending()) : PageRequest.of(currentPage, size, Sort.by(colName).ascending());
 	}
 }

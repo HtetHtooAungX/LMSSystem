@@ -31,6 +31,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -63,6 +64,7 @@ public class AuthController {
 	private final ApplicationEventPublisher eventPublisher;
 	private final UserService service;
 	private final UserValidator userValidator;
+	private final PasswordEncoder encoder;
 
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -78,7 +80,7 @@ public class AuthController {
 		eventPublisher.publishEvent(new AccessEvent(dto.getUsername(), decryptedPassword, LocalDateTime.now()));
 
 		User user = service.findByUserNameOrEmail(dto.getUsername());
-		if (null != user && StringUtils.hasText(decryptedPassword)) {
+		if (null != user && encoder.matches(decryptedPassword, user.getPassword())) {
 			
 			List<Role> role = new ArrayList();
 			role.add(user.getRole());

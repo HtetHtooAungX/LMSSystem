@@ -55,12 +55,18 @@
 	                    data: 'id',
 	                    orderable: false,
 	                    render: function (data) { 
-		                    return `<a id="deleteBtn" class="btn btn-danger btn-sm me-2" href="/users/delete/${data}">Delete</a>`;  
+		                    return `<a id="deleteBtn" class="btn btn-danger btn-sm me-2" href="#" onclick="confirmDelete(${data})">Delete</a>`;  
 		                    }
 	                }
 	            ]
 		 });
 	});
+
+	function confirmDelete(id) {
+		if(confirm("Are u sure u want to delete?")) {
+			window.location.href=`/users/delete/${id}`;
+		}
+	}
 	</script>
 </main>
 </body>

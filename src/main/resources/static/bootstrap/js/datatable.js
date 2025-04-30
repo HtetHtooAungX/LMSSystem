@@ -26,9 +26,15 @@ $(document).ready( function () {
                     data: 'id',
                     orderable: false,
                     render: function (data) {
-                    	return `<a class="btn btn-danger btn-sm" href="/book/delete/${data}">Delete</a>`; 
+                    	return `<a class="btn btn-danger btn-sm" href="#" onclick="confirmDelete(${data})">Delete</a>`; 
                     	}
                 }
             ]
 	 });
 });
+
+function confirmDelete(id) {
+	if(confirm("Are u sure u want to delete?")) {
+		window.location.href=`/users/delete/${id}`;
+	}
+}

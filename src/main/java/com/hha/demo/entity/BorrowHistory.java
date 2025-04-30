@@ -1,6 +1,5 @@
 package com.hha.demo.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
